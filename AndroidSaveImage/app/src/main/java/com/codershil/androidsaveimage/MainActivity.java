@@ -44,28 +44,28 @@ public class MainActivity extends AppCompatActivity {
         // output stream will help us to save image to external storage
         OutputStream outputStream;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) ;
-        // content provider have access to central repository . we use content resolver to get the access of content provider,
-        // content resolver work as the client for content provider
-        ContentResolver contentResolver = getContentResolver();
-        // content values is like a row inside content resolver . it content contain necessary things needed to communicate with content provider
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "MyImage" + ".jpg");
-        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
-        contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM + File.separator + "MyFolder");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // content provider have access to central repository . we use content resolver to get the access of content provider,
+            // content resolver work as the client for content provider
+            ContentResolver contentResolver = getContentResolver();
+            // content values is like a row inside content resolver . it content contain necessary things needed to communicate with content provider
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "MyImage" + ".jpg");
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM + File.separator + "MyFolder");
 
-        //content URI is a uri which identifies the data in the provider
-        Uri imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            //content URI is a uri which identifies the data in the provider
+            Uri imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
 
-        try {
-            outputStream = contentResolver.openOutputStream(imageUri);
-            // this method will put the image with given data with the given compress format and quality
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-            Toast.makeText(this, "image saved", Toast.LENGTH_SHORT).show();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            try {
+                outputStream = contentResolver.openOutputStream(imageUri);
+                // this method will put the image with given data with the given compress format and quality
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                Toast.makeText(this, "image saved", Toast.LENGTH_SHORT).show();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
-
 
     }
 }
